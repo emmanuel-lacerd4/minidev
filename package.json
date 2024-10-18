@@ -1,0 +1,22 @@
+{
+  "name": "minidev",
+  "version": "1.0.0",
+  "description": "Mini editor de código",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmanuel-lacerd4/minidev.git"
+  },
+  "author": "Emmanuel L. Nogueira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emmanuel-lacerd4/minidev/issues"
+  },
+  "homepage": "https://github.com/emmanuel-lacerd4/minidev#readme",
+  "devDependencies": {
+    "electron": "^33.0.1"
+  }
+}
