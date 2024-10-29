@@ -5,12 +5,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Evitar ataques de injeção de código malicioso -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
     <title>Mini Dev Editor</title>
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 
 <body>
-    <h1>Mini Dev Editor</h1>
-    <p>Emmanuel L. Nogueira</p>
+    <section id="sobre">
+        <h1>Mini Dev Editor</h1>
+        <p>Emmanuel L. Nogueira</p>
+        <button onclick="fechar()">OK</button>
+    </section>
+
+    <!-- Processo de renderização -->
+    <script src="renderer.js"></script>
 </body>
 
 </html>
