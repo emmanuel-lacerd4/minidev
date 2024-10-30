@@ -2,7 +2,7 @@
  * Segurança e desempenho
  */
 
-const {contextBridge, ipcRenderer} = require('electron')
+const { contextBridge, ipcRenderer } = require('electron')
 
 // Processos de comunicação entre renderer e main
 contextBridge.exposeInMainWorld('api', {
