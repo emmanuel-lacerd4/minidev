@@ -35,10 +35,38 @@ body {
     width: 100%;
     height: 100%;
     background-color: var(--fundo);
+    overflow: hidden;
 }
 
 body {
     padding-top: 10px;
+}
+
+#linhas,
+#txtArea {
+    height: 100%;
+    font-family: "Source Code Pro";
+    font-size: 1.1em;
+    background-color: var(--fundo);
+}
+
+#linhas {
+    width: 8%;
+    /* background-color: var(--amarelo); */
+    float: left;
+}
+
+#txtArea {
+    width: 92%;
+    /* background-color: var(--cinzaClaro); */
+    color: var(--cinzaClaro);
+}
+
+#txtArea:focus {
+    /* Remover o foco da área de texto */
+    outline: none;
+    /* Impedir o redimensionamento do campo de texto txtArea */
+    resize: none;
 }
 
 /* Sobre */
