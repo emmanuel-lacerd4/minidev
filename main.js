@@ -84,7 +84,8 @@ const template = [
         submenu: [
             {
                 label: 'Novo',
-                accelerator: 'CmdOrCtrl+N'
+                accelerator: 'CmdOrCtrl+N',
+                click: () => novoArquivo()
             },
             {
                 label: 'Abrir',
@@ -157,28 +158,35 @@ const template = [
         label: 'Cor',
         submenu: [
             {
-                label: 'Amarelo'
+                label: 'Amarelo',
+                click: () => win.webContents.send('set-color', "var(--amarelo)")
             },
             {
-                label: 'Azul'
+                label: 'Azul',
+                click: () => win.webContents.send('set-color', "var(--azul)")
             },
             {
-                label: 'Laranja'
+                label: 'Laranja',
+                click: () => win.webContents.send('set-color', "var(--laranja)")
             },
             {
-                label: 'Pink'
+                label: 'Pink',
+                click: () => win.webContents.send('set-color', "var(--pink)")
             },
             {
-                label: 'Roxo'
+                label: 'Roxo',
+                click: () => win.webContents.send('set-color', "var(--roxo)")
             },
             {
-                label: 'Verde'
+                label: 'Verde',
+                click: () => win.webContents.send('set-color', "var(--verde)")
             },
             {
                 type: 'separator'
             },
             {
-                label: 'Restaurar a cor padrão'
+                label: 'Restaurar a cor padrão',
+                click: () => win.webContents.send('set-color', "var(--cinzaClaro)")
             },
         ]
     },
@@ -196,3 +204,19 @@ const template = [
         ]
     }
 ]
+
+// Novo arquivo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// Passo 1: Criar a estrutura de um arquivo e setar o título
+// Um arquivo inicia sem título, sem conteúdo, não está salvo e o local padrão vai ser a pasta documentos
+function novoArquivo() {
+    file = {
+        name: "Sem título",
+        content: "",
+        saved: false,
+        path: app.getPath('documents') + 'Sem título'
+    }
+    //console.log(file)
+    // Enviar ao renderizador a estrutura de um novo arquivo e título
+    win.webContents.send('set-file', file)
+}
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
