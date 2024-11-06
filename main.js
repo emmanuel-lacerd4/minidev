@@ -4,8 +4,14 @@ console.log("Processo principal")
 // nativeTheme (forçar um tema no sistema operacional)
 // Menu (criar um menu personalizado)
 // Shell (acessar links externos)
-const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain } = require('electron/main')
+const { app, BrowserWindow, nativeTheme, Menu, shell, ipcMain, dialog } = require('electron/main')
 const path = require('node:path')
+
+// Importação da biblioteca file system (nativa do JavaScript) para manipular arquivos
+const fs = require('fs')
+
+// Criação de um objeto com a estrutura básica de um arquivo
+let file = {}
 
 // Janela principal
 let win // Importante! Neste projeto o escopo da variavél win deve ser global
@@ -89,15 +95,18 @@ const template = [
             },
             {
                 label: 'Abrir',
-                accelerator: 'CmdOrCtrl+O'
+                accelerator: 'CmdOrCtrl+O',
+                click: () => abrirArquivo()
             },
             {
                 label: 'Salvar',
-                accelerator: 'CmdOrCtrl+S'
+                accelerator: 'CmdOrCtrl+S',
+                click: () => salvar()
             },
             {
                 label: 'Salvar Como',
-                accelerator: 'CmdOrCtrl+Shift+S'
+                accelerator: 'CmdOrCtrl+Shift+S',
+                click: () => salvarComo()
             },
             {
                 type: 'separator'
@@ -220,3 +229,77 @@ function novoArquivo() {
     win.webContents.send('set-file', file)
 }
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// Abrir arquivo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// 2 funções abrirArquivo() e lerArquivo(caminho)
+async function abrirArquivo() {
+    // Usar um módulo do Electron para abrir o explorador de arquivos
+    let dialogFile = await dialog.showOpenDialog({
+        defaultPath: file.path // Selecionar o arquivo no local dele
+    })
+    //console.log(dialogFile)
+    // Validação do botão [Cancelar]
+    if (dialogFile.canceled === true) {
+        return false
+    } else {
+        // Abrir o arquivo
+        file = {
+            name: path.basename(dialogFile.filePaths[0]),
+            content: lerArquivo(dialogFile.filePaths[0]),
+            saved: true,
+            path: dialogFile.filePaths[0]
+        }
+    }
+    //console.log(file)
+    // Enviar o arquivo para o renderizador
+    win.webContents.send('set-file', file)
+}
+
+function lerArquivo(filePath) {
+    // Usar o trycath sempre que trabalhar com arquivos
+    try {
+        // A linha abaixo usa a biblioteca fs para ler um arquivo, informando o caminho e o encoding do arquivo
+        return fs.readFileSync(filePath, 'utf-8')
+    } catch (error) {
+        console.log(error)
+        return ''
+    }
+}
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// Salvar e salvar como >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// 3 funções 1-) Salvar como, 2-) Salvar e 3-) Salvar arquivo (fs)
+async function salvarComo() {
+    let dialogFile = await dialog.showSaveDialog({
+        defaultPath: file.path
+    })
+    //console.log(dialogFile)
+    if (dialogFile.canceled === true) {
+        return false
+    } else {
+        salvarArquivo(dialogFile.filePath)
+    }
+}
+
+function salvar() {
+    if (file.saved === true) {
+        return salvarArquivo(file.path)
+    } else {
+        return salvarComo()
+    }
+}
+
+function salvarArquivo(filePath) {
+    console.log(filePath)
+    try {
+        // Uso da biblioteca fs para gravar um arquivo
+        fs.write(filePath, file.content, (error) => {
+            file.path = filePath
+            file.saved = true
+            file.name = path.basename(filePath)
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

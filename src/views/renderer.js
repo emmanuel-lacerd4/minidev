@@ -73,10 +73,13 @@ api.setColor((event, color) => {
     }
 })
 
-// Novo arquivo - Carregar a estrutura do arquivo e mudar o título
+// Novo arquivo / Abrir arquivo
+// Novo arquivo: Carregar a estrutura do arquivo e mudar o título
+// Abrir arquivo: Abrir um arquivo existente
 api.setFile((event, file) => {
     area.value = file.content
     // Capturar o id do título
     const nomeArquivo = document.getElementById("titulo")
     nomeArquivo.innerHTML = `${file.name} - Mini Dev Editor`
+    atualizarLinhas()
 })
