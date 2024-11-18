@@ -83,3 +83,8 @@ api.setFile((event, file) => {
     nomeArquivo.innerHTML = `${file.name} - Mini Dev Editor`
     atualizarLinhas()
 })
+
+// Atualização de conteúdo (objeto file) em tempo real
+function update() {
+    api.atualizarConteudo(area.value)
+}

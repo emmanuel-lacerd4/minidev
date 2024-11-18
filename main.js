@@ -293,13 +293,20 @@ function salvarArquivo(filePath) {
     console.log(filePath)
     try {
         // Uso da biblioteca fs para gravar um arquivo
-        fs.write(filePath, file.content, (error) => {
+        fs.writeFile(filePath, file.content, (error) => {
             file.path = filePath
             file.saved = true
             file.name = path.basename(filePath)
+            // Alterar o título ao salvar um arquivo 
+            win.webContents.send('set-file', file)
         })
     } catch (error) {
         console.log(error)
     }
 }
+
+// Atualização em tempo real do conteúdo object file
+ipcMain.on('update-content', (event, value) => {
+    file.content = value
+})
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
