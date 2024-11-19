@@ -3,5 +3,7 @@
 # Mini Dev Editor
 Mini editor de código usando o framework Electron.
 
+![](printMiniDev.PNG)
+
 ## Author
 Emmanuel L. Nogueira
